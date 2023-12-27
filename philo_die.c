@@ -2,14 +2,15 @@
 
 int     is_dying(t_philo **ph)
 {
-    if (get_time_in_ms() - (*ph)->last_meal > (*ph)->data->time_to_die)
+    if (get_time_in_ms() - (*ph)->last_meal > (*ph)->inf->die_time)
     {
-        pthread_mutex_lock(&(*ph)->data->die);
-        (*ph)->data->died = 1;
-        pthread_mutex_unlock(&(*ph)->data->die);
-        pthread_mutex_lock(&(*ph)->data->print);
+        pthread_mutex_lock(&(*ph)->inf->die);
+        (*ph)->inf->died = 1;
+        pthread_mutex_unlock(&(*ph)->inf->die);
+        pthread_mutex_lock(&(*ph)->inf->print);
         printf("%lld %d died.\n", get_time_in_ms(), (*ph)->philo_id + 1);
-        pthread_mutex_unlock(&(*ph)->data->print);
+        pthread_mutex_unlock(&(*ph)->inf->print);
+        // printf("\nmeraaa\n");
         return (1);
     }
     return (0);
@@ -28,22 +29,22 @@ int     is_dying(t_philo **ph)
 
 int     does_eat(t_philo *ph)
 {
-    if (ph->meals_count == ph->data->nb_of_eats)
+    if (ph->meals_count == ph->inf->nb_of_meals)
         return (1);
     return (0);
 }
-int     do_they_eat(t_data *data)
+int     do_they_eat(t_data *dt)
 {
     int     i;
 
     i = 0;
-    while (i < data->nb_of_philos)
+    while (i < dt->info->nb_of_philos)
     {
-        if (!does_eat(&(data->philos[i])))
+        if (!does_eat(&dt->philos[i]))
             break ;
         i++;
     }
-    if (i == data->nb_of_philos)
+    if (i == dt->info->nb_of_philos)
         return (1);
     return (0);
 }

@@ -12,7 +12,7 @@ RM = rm -rf
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
 
 all : $(NAME)
 
